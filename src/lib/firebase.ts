@@ -8,6 +8,6 @@ if (!firebase.apps.length) {
 export const getShops = async () => {
   const snapshot = await firebase.firestore().collection("shops").get();
   const shops = snapshot.docs.map((doc) => doc.data() as Shop);
-  ß;
+
   return shops;
 };
