@@ -1,11 +1,15 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { HomeScreen } from "../screens/HomeScreen";
+// import { HomeStackNavigator } from "./HomeStackNavigator";
+import { MainTabNavigator } from "./MainTabNavigator";
+import { AuthScreen } from "../screens/AuthScreen";
 export const AppNavigator = () => {
+  const user = { id: "123" };
   return (
     <NavigationContainer>
-      <HomeScreen />
+      {!user ? <AuthScreen /> : <MainTabNavigator />}
+      {/* <MainTabNavigator /> */}
     </NavigationContainer>
   );
 };

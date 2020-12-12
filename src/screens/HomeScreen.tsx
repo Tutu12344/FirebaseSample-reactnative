@@ -4,8 +4,13 @@ import { FlatList, StyleSheet, Text, View, SafeAreaView } from "react-native";
 import ShopReviewItem from "../components/ShopReviewItem";
 import { getShops } from "../lib/firebase";
 import { Shop } from "../types/shop";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types/navigation";
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList, "Home">;
+};
 
-export const HomeScreen = () => {
+export const HomeScreen: React.FC<Props> = ({ navigation }: Props) => {
   const [shops, setShops] = useState<Shop[]>([]);
   useEffect(() => {
     getFirebaseItems();
@@ -15,15 +20,16 @@ export const HomeScreen = () => {
     const shops = await getShops();
     setShops(shops);
   };
-  const shopItems = shops.map((shop, index) => (
-    <ShopReviewItem shop={shop} key={index.toString()} />
-  ));
+
+  const onPressShop = (shop: Shop) => {
+    navigation.navigate("Shop", { shop });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={shops}
         renderItem={({ item }: { item: Shop }) => (
-          <ShopReviewItem shop={item} />
+          <ShopReviewItem shop={item} onPress={() => onPressShop(item)} />
         )}
         keyExtractor={(item, index) => index.toString()}
         numColumns={2}
